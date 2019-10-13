@@ -1,0 +1,128 @@
+button{
+    border: 1px solid white;
+    background-color: transparent;
+    border-radius: 4px;
+}
+body{
+    background-image: url("../img/001.jpg");
+    /* 背景图垂直、水平均居中 */
+    background-position: center center;
+    /* 背景图不平铺 */
+    background-repeat: no-repeat;
+    /* 当内容高度大于图片高度时，背景图像的位置相对于viewport固定 */
+    background-attachment: fixed;
+    /* 让背景图基于容器大小伸缩 */
+    background-size: cover;
+    /* 设置背景颜色，背景图加载过程中会显示背景色 */
+    margin:  0px;
+}
+#all{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color:#000000;/* IE6和部分IE7内核的浏览器(如QQ浏览器)下颜色被覆盖 */
+    background-color:rgba(0,0,0,0.2); /* IE6和部分IE7内核的浏览器(如QQ浏览器)会读懂，但解析为透明 */
+}
+form>input{
+    background-color: pink;
+    border: gold;
+    border-radius: 5px;
+    height: 30px;
+    margin: 3px;
+}
+form>input:hover{
+    background-color:gray;
+}
+#head{
+    position: absolute;
+    top: 0%;
+    height: 45px;
+    width: 100%;
+    background-color:#000000;/* IE6和部分IE7内核的浏览器(如QQ浏览器)下颜色被覆盖 */
+    background-color:rgba(0,0,0,0.2); /* IE6和部分IE7内核的浏览器(如QQ浏览器)会读懂，但解析为透明 */
+}
+#main{
+     position: absolute;
+     top: 10%;
+     width: 100%;
+     height: 79%;
+ }
+#foot{
+    position: absolute;
+    top: 91%;
+    height: 8%;
+}
+#head>#name{
+    position: absolute;
+    border: 1px solid white;
+    background-color: transparent;
+    border-radius: 4px;
+    left: 1%;
+    top: 10px;
+}
+#head>#title{
+    position: absolute;
+    top: 0px;
+}
+#head>#message{
+    position: absolute;
+    border: 1px solid white;
+    background-color: transparent;
+    border-radius: 4px;
+    right: 1%;
+    top: 10px;
+}
+#checkbox>#c1{
+    position: absolute;
+    width: 45%;
+    height: 45%;
+    top: 0px;
+    left: 0px;
+}
+#checkbox>#c2{
+     position: absolute;
+     width: 45%;
+     height: 45%;
+     top: 0px;
+     right: 0px;
+}
+#checkbox>#c3{
+      position: absolute;
+      width: 45%;
+      height: 45%;
+      left: 0px;
+      bottom: 0px;
+}
+#checkbox>#c4{
+    position: absolute;
+    width: 45%;
+    height: 45%;
+    right: 0px;
+    bottom: 0px;
+}
+.text{
+    width: 300px;
+    height: 200px;
+    position: absolute;
+    left: 50%;
+    margin-left: -150px;
+    background-image: -webkit-linear-gradient(left,gold,pink 10%, greenyellow 20%, deepskyblue 30%,
+    red 40%, gold 50%, pink 60%,greenyellow 70%,
+    deepskyblue 80%, red 90%,gold 100%);
+    -webkit-text-fill-color: transparent;/* 将字体设置成透明色 */
+    -webkit-background-clip: text;/* 裁剪背景图，使文字作为裁剪区域向外裁剪 */
+    -webkit-background-size: 200% 100%;
+    -webkit-animation: masked-animation 4s linear infinite;
+    font-size: 35px;
+}
+@keyframes masked-animation{
+    0% {
+        background-position: 0  0;
+    }
+    100% {
+        background-position: -100%  0;
+    }
+}
+#foot>button{
+    float: right;
+}

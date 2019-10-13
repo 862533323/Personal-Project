@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>管理借阅</title>
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/fontAwesome.css">
+    <link rel="stylesheet" href="/css/light-box.css">
+    <link rel="stylesheet" href="/css/templatemo-style.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+
+    <script src="/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+    <script>
+        function sub(url) {
+            var uid=$("#uid").val();
+            var bookId=$("#bookId").val();
+            var reg = /^[0-9]*$/;
+            if (uid==""||!reg.test(uid)) {
+                alert("用户id出错");
+                return;
+            }
+            if (bookId==""&&!reg.test(bookId)){
+                alert("图书id出错");
+                return;
+            }
+            $.ajax({
+                type:"post",
+                url:"/mng/"+url,
+                async:false,
+                data:{"uid":uid,"bookId":bookId},
+                dataType:"text",
+                success:function (data) {
+                    if (data=="success"){
+                        alert("移除成功");
+                        window.location.reload();
+                    }else {
+                        alert(data);
+                    }
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+<center>
+    <div style="position: absolute;top: 30%;left: 20%;right: 20%;">
+        <center>
+            <h1>管理借阅</h1>
+        </center>
+        <form>
+            <table>
+                <tr>
+                    <td>用户id</td><td><input id="uid" placeholder=""/></td>
+                </tr>
+                <tr>
+                    <td>图书id</td><td><input id="bookId"/></td>
+                </tr>
+            </table>
+        </form>
+        <button id="add" onclick="sub('addLend')">添加借阅</button><button id="move" onclick="sub('removeLend')">移除借阅</button>
+    </div>
+</center>
+</body>
+</html>

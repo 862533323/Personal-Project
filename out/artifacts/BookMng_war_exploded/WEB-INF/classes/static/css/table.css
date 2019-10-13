@@ -1,0 +1,68 @@
+
+#app-gas-content {
+    table-layout: fixed;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    border: 1px solid white;
+    border-collapse: collapse;
+}
+#app-gas-content th {
+    color: rgba(149, 31, 225, 0.98);
+    font-size: 14px;
+    border: solid white;
+    border-width: 0px 1px 1px 0px;
+}
+#app-gas-body td {
+    color: #e1a802;
+    font-size: 14px;
+    border: solid white;
+    border-width: 0px 1px 1px 0px;
+    text-overflow: ellipsis;
+    height: 100%;
+}
+#app-gas-body {
+    display: block;
+/*height: 100px;*/
+    height: 95%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+#app-gas-content thead, #app-gas-body tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+#app-gas-content thead {
+    width: calc( 100% - 1em );
+ }
+.box{
+    width: 50%;
+    margin: 50px auto;
+}
+.img-box{
+    width: 100%;
+    position:relative;
+    z-index:1;
+    overflow: hidden;
+}
+.img-box img{
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    width:100%;
+    height: auto;
+    margin:auto;
+    z-index: -1;
+    *zoom:1;
+}
+.img-box:before {
+    content: "";
+    display: inline-block;
+    padding-bottom: 100%;
+    width: 0.1px;	/*必须要有数值，否则无法把高度撑起来*/
+    vertical-align: middle;
+}
+

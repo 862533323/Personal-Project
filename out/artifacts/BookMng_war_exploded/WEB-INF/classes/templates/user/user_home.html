@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人主页</title>
+    <link rel="stylesheet" href="/css/formal.css" type="text/css"/>
+    <link rel="stylesheet" href="/css/table.css" type="text/css"/>
+    <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            getName();
+            search("null");
+            $("#app-gas-body").scroll(function () {
+                if($(this)[0].scrollTop+$(this).height()>=$(this)[0].scrollHeight){
+                    loadMore();
+                }
+            });
+            $("#search").click(function () {
+                var id=$("#search_id").val();
+                id=ClearBr(id);
+                if (id==""){
+                    return;
+                }
+                search(id);
+            });
+            $("#myLend").click(function () {
+                    judge("to_myLend");
+            });
+            $("#myLove").click(function () {
+                judge("to_myLove");
+            });
+            $("#tips").click(function () {
+                judge("to_tips");
+            });
+            $("#recommend").click(function () {
+                judge("to_recommend");
+            });
+            $("#message").click(function () {
+                $.ajax({
+                    url:'/mng/addBook',
+                    type:'get',
+                    dataType:'text',
+                    success:function (data) {
+                        if (data=='null'){
+                            window.location=data;
+                        }else if (data=='low'){
+                            $("#message").hide(1000);
+                            $("#dlc").fadeIn(2000);
+                            $("#dlc").fadeOut(2000);
+                            setTimeout('$("#message").show(1000)',3000);
+                        }else{
+                            window.location=data;
+                        }
+                    }
+                });
+            });
+        });
+        function ClearBr(key) {
+            key = key.replace(/<\/?.+?>/g,"");
+            key = key.replace(/[\r\n]/g, "");
+            return key;
+        }
+        function loadMore() {
+            var loading="<tr id='loading'><td><div >-- Loading --</div></td></tr>";
+            $("#app-gas-body").append(loading);
+            setTimeout(function(){
+                $.ajax({
+                    type: 'GET',
+                    url: "/user/searchNext",
+                    contentType: "application/json;charset=utf-8",
+                    dataType: "text",
+                    success: function (data) {
+                        if (data!=""){
+                            var loadMoreContent = "<tr><td><div id='load_more_content' class='red_load_more_content'>-- 上拉加载更多 --</div></td></tr>";
+                            $("#load_more_content").remove();
+                            var list = data; //取出后端传过来的list值
+                            $("#app-gas-body").append(list);//将信息追加
+                            $("#app-gas-body").append(loadMoreContent);
+                        } else{
+                            $("#load_more_content").remove();
+                            var loadMoreContent = "<tr><td><div id='load_more_content' class='red_load_more_content'>-- 到底了 --</div></td></tr>";
+                            $("#app-gas-body").append(loadMoreContent);
+                        }
+                    }
+                });
+            },1000);
+            $("#loading").remove();
+        }
+        function judge(data) {
+            if ($("#name").text()=="未登录")
+                window.location.href="/Login/to_login";
+            else search(data);
+        }
+        function search(keyword){
+            $.ajax({
+                type: 'GET',
+                url: "/user/search/"+keyword,
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    var loadMoreContent = "<tr id='load_more_content'><td><div  class='red_load_more_content'>-- 上拉加载更多 --</div></td></tr>";
+                    $("#load_more_content").remove();
+                    $("#app-gas-body").empty();
+                    var list = data; //取出后端传过来的list值
+                    $("#app-gas-body").append(list);//将信息追加
+                    $("#app-gas-body").append(loadMoreContent);
+                }
+            });
+        }
+        function getName() {
+            $.ajax({
+                type:'get',
+                url:"/user/getUserName",
+                dataType:'text',
+                success:function (data) {
+                    if (data=="")
+                        ;
+                    else
+                        $("#name").text(data);
+                }
+            })
+        }
+        function inf(id) {
+            window.location='/user/book_inf/'+id;
+        }
+    </script>
+</head>
+<body>
+    <div id="all">
+        <div id="head">
+            <button id="name">未登录</button>
+            <center><span id="title" class="text" style="color:gold;">soft书城</span></center>
+            <p id="dlc"  style="position: absolute;top: -2px;right: 1%;display: none;">需要一个管理员账号</p>
+            <button id="message">拓展功能</button>
+        </div>
+        <div id="main" style="height: 90%">
+            <div id="menu" style="width: 30%;height: 100%">
+                <button id="myLend">我的借阅</button><br/>
+                <button id="tips">还书提醒</button><br/>
+                <button id="myLove">我的收藏</button><br/>
+                <button id="recommend">图书推荐</button><br/>
+            </div>
+            <div id="checkbox" style="width: 79%;position: absolute;top:0px;left: 20%;height: 100%">
+                <div>
+                   <input type="text" id="search_id" placeholder="搜你想搜的书" style="width: 70%"><button id="search">搜索</button>
+                </div>
+                <hr>
+                <div style="width: 100%;height: 90%">
+                    <table id="app-gas-content">
+                        <thead>
+                            <tr>
+                                <th >书名</th>
+                                <th >图片</th>
+                                <th >描述</th>
+                                <th >余量</th>
+                            </tr>
+                        </thead>
+                        <tbody id="app-gas-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div id="foot">
+        </div>
+    </div>
+<br/>
+</body>
+</html>

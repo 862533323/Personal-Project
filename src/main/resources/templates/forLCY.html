@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>JSP Page</title>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+</head>
+<body>
+<div class="update_div">
+    <p class="text">test</p>
+</div>
+<div class="update_div">
+    <p class="text">test</p>
+</div>
+<div class="update_div">
+    <p class="text">test</p>
+</div>
+<button id="update_b">input test</button>
+<button id="save_b">save</button>
+</body>
+
+<script>
+    $(document).ready(function () {
+        $('#update_b').click(function(){
+            $('.update_div').empty();
+            var input='<input class="update_input"/>'
+            $('.update_div').append(input);
+        });
+        $("#save_b").click(function () {
+            f();
+            return;
+            var div=$('.update_div').getElementsByClassName("update_input");
+            var input='<p class="text">'+value[0].value+'</p>';
+            $('.update_div').empty();
+            $('.update_div').append(input);
+        });
+        $('#test').on('input propertychange',function(){
+            var result = $(this).val();
+            console.log(result);
+            $('#update_p').html(result);
+        });
+        $('#test').on('blur',function(){
+            $('#test').fadeOut();
+        });
+    });
+    function f() {
+        var array=document.getElementsByClassName("update_div");
+        for (var i=0;i<array.length;i++){
+            var value=array[i].getElementsByClassName("update_input");
+            var app="<p class='text'>"+value[0].value+"</p>";
+            var app1=value[0].value;
+            array[i].append(app);
+        }
+        $('.update_input').remove();
+    }
+</script>
+</html>

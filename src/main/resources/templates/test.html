@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>test</title>
+    <script>
+        $(document).ready(function(){
+            $("#sub").click(function(){
+                alert("start update");
+                $.ajax({
+                    type: "GET",
+                    url: "/test/update",
+                    data:{id:$("#id").val(), djje:$("#djje").val() },
+                    dataType: "text",
+                    success: function(data){
+                        alert("update success");
+                        $("#id").val("");
+                        $("#djje").val("");
+                    }
+                });
+            });
+        });
+
+    </script>
+</head>
+<body>
+简单遍历：
+<table border="1">
+    <tr th:each="m : ${List}"><!-- 其中m是个临时变量，像for(User u : userList)那样中的u-->
+        <td th:text="${m.Num}"/>
+        <td th:text="${m.Name}"/>
+    </tr>
+</table>
+</body>
+</html>

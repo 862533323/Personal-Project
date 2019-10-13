@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="/css/formal.css"/>
+
+    <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+    <title>添加图书</title>
+    <style>
+        table{
+            table-layout: fixed;
+            border:1px;
+            cellspacing:0px;
+            border: 1px solid white;
+            border-collapse: collapse;
+            background-color:rgba(0,0,0,0.2); /* IE6和部分IE7内核的浏览器(如QQ浏览器)会读懂，但解析为透明 */
+        }
+        #app-gas-body tr{
+            height: 60px;
+            border: solid white;
+            border-width: 0px 1px 1px 0px;
+        }
+        tr:first-child{
+            width: 20%;
+        }
+        td{
+            text-align: center;
+            height: 60px;
+            border: solid white;
+            border-width: 0px 1px 1px 0px;
+        }
+        td input{
+            width: 98%;
+            height: 100%;
+            background: transparent;
+        }
+        .color{
+            background-image: -webkit-linear-gradient(left,gold,pink 10%, greenyellow 20%, deepskyblue 30%,
+            #e1d543 40%, gold 50%, pink 60%,greenyellow 70%,
+            deepskyblue 80%, #e1d543 90%,gold 100%);
+            -webkit-text-fill-color: transparent;/* 将字体设置成透明色 */
+            -webkit-background-clip: text;/* 裁剪背景图，使文字作为裁剪区域向外裁剪 */
+            -webkit-background-size: 200% 100%;
+            -webkit-animation: masked-animation 4s linear infinite;
+            font-size: 20px;
+        }
+        @keyframes masked-animation{
+            0% {
+                background-position: 0  0;
+            }
+            100% {
+                background-position: -100%  0;
+            }
+        }
+        .img-box{
+            width: 100%;
+            position:relative;
+            z-index:1;
+            overflow: hidden;
+        }
+        .img-box img{
+            position:absolute;
+            top:0;
+            bottom:0;
+            left:0;
+            right:0;
+            width:100%;
+            height: auto;
+            margin:auto;
+            z-index: -1;
+            *zoom:1;
+        }
+        .img-box:before {
+            content: "";
+            display: inline-block;
+            padding-bottom: 100%;
+            width: 0.1px;	/*必须要有数值，否则无法把高度撑起来*/
+            vertical-align: middle;
+        }
+        body{
+            overflow: hidden;
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            $('#image').on('change',function(){
+                var filePath = $(this).val(),         //获取到input的value，里面是文件的路径
+                    fileFormat = filePath.substring(filePath.lastIndexOf(".")).toLowerCase(),
+                    src = window.URL.createObjectURL(this.files[0]); //转成可以在本地预览的格式
+                // 检查是否是图片
+                if( !fileFormat.match(/.png|.jpg|.jpeg/) ) {
+                    alert('上传错误,文件格式必须为：png/jpg/jpeg');
+                    return;
+                }
+                $("#image").fadeOut();
+                $('#img').attr('src',src);
+                $("#photo").empty();
+                $("#photo").append(filePath);
+            });
+            $("#img").click(function () {
+                $("#image").click();
+            });
+        })
+    </script>
+</head>
+<body>
+    <div id="all">
+        <div id="head" style="height: 15%">
+            <h1 th:inlines="text" style="position: absolute;left: 5%">添加图书</h1>
+        </div>
+        <h1><a href="addLend.html" style="position: absolute;top: 7%;right: 2%;z-index: 6">添加借阅</a></h1>
+        <div id="main">
+            <div style="position: absolute;left: 20%;width: 60%;height: 100%;top: 20%;">
+                <form action="/mng/fileUpload" method="post" enctype="multipart/form-data">
+                    <table style="width: 100%">
+                        <tbody style="overflow: hidden">
+                            <tr>
+                                <td class="color">楼层</td>
+                                <td class="color">数量</td>
+                                <td class="color">价格</td>
+                                <td class="color" id="photo">
+                                    <a href="#" onclick="javascript:$('#image').click();">添加图片</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="text" name="location"></td>
+                                <td><input type="text" name="num"></td>
+                                <td><input type="text" name="price"></td>
+                                <td rowspan="4" >
+                                    <div class="img-box">
+                                        <img id="img"/>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="color">书名</td>
+                                <td colspan="2"><input type="text" name="name" ></td>
+                            </tr>
+                            <tr >
+                                <td class="color">描述</td>
+                                <td colspan="2">
+                                    <input type="text" name="describe">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <input type="submit" value="提交" style="position: absolute;right: 0px;"/>
+                    <input id='image' type='file'name="fileName" style="display: none;"/>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>
